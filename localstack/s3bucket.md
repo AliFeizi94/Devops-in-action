@@ -31,5 +31,5 @@ aws --endpoint-url http://localhost:4566 s3api create-bucket --bucket my-bucket 
 
 # upload Data in bucket
 ```
-
+aws --endpoint-url http://localhost:4566 s3 cp sample.json s3://my-bucket/inner/sample.json --content-type 'application/json'
 ```
