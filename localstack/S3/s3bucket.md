@@ -37,3 +37,7 @@ aws --endpoint-url http://localhost:4566 s3 cp sample.json s3://my-bucket/inner/
 ```
 aws s3api list-buckets --query "Buckets[].Name" --endpoint-url=http://localhost:4566 
 ```
+# Download 
+```
+aws --endpoint-url http://localhost:4566 s3 cp s3://my-bucket/inner/sample.json sample10.json --content-type 'application/json'   
+```
