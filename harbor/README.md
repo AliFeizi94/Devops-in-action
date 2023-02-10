@@ -30,3 +30,6 @@ https:
 bash prepare.sh 
 bash install.sh
 ```
+
+``If you harbor is in Local make sure your domain name match with your server (make a host for you domain ) in my case 192.168.4.210 hub.packops.dev >> /etc/hosts ``
+
