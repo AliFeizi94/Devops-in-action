@@ -1,0 +1,22 @@
+- hosts: srv1
+  become: true
+  tasks:
+  - name: Make sure destination dir exists
+    file:
+      path: /tmp/docker/
+      state: directory
+
+  - name: copy Deb file to Docker
+    copy:
+      src: ./docker/
+      dest: /tmp/docker/
+
+  - name: install docker deb packages
+    apt:
+      deb:  "{{ item }}"
+    with_items:
+      - /tmp/docker/docker-ce-cli_20.10.13~3-0~ubuntu-jammy_amd64.deb
+      - /tmp/docker/containerd.io_1.5.10-1_amd64.deb
+      - /tmp/docker/docker-ce_20.10.13~3-0~ubuntu-jammy_amd64.deb
+      - /tmp/docker/docker-compose-plugin_2.11.2~ubuntu-jammy_amd64.deb
+      - /tmp/docker/docker-scan-plugin_0.17.0~ubuntu-jammy_amd64.deb
