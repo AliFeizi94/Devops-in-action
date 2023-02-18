@@ -21,6 +21,9 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
+      - "5140:5140"
+      - "5140:5140/udp"
+
 
   elasticsearch:
     image: elasticsearch:7.13.0
