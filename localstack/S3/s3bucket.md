@@ -10,7 +10,7 @@ docker-compos up -d
 ```
 # Config aws client 
 ```
-apt install aws-client
+apt install awscli 
 
 aws config
 ```
