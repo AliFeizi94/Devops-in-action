@@ -12,7 +12,7 @@ docker-compos up -d
 ```
 apt install awscli 
 
-aws config
+aws configure
 ```
 ![image](https://user-images.githubusercontent.com/88557305/215318895-9fdf2616-e5cb-4978-bef2-e303c2c59ae1.png)
 
