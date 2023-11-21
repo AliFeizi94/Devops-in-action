@@ -59,7 +59,7 @@ apt update &&  sudo apt-get install docker-ce docker-ce-cli containerd.io docker
 # 5 Bring up harbor 
 
 ```
-bash prepare.sh 
+bash prepare
 bash install.sh
 ```
 
