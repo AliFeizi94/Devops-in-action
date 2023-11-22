@@ -18,3 +18,22 @@ users:
     ssh_authorized_keys:
       - your_public_ssh_key
 ```
+
+```
+multipass mount /var/www/html my-vm:/var/www/html
+```
+
+```
+multipass exec your-vm-name  -- sudo ufw allow 8080
+```
+
+```
+multipass shell your-vm-name
+netcat -l -p 8080
+
+
+multipass info your-vm-name | grep "IPv4"
+IPv4:           10.148.124.117
+
+echo test | nc -u  10.148.124.117  8080
+```
