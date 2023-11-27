@@ -51,15 +51,23 @@ openssl x509 -req -sha512 -days 3650 \
 
 
 ```
-# 4- Trust CA on Client 
+# 4- Trust CA on Client && Docker Login Config
 ```
-mkdir -p /usr/local/share/ca-certificates/hub.packops.local/
+docker run -it  --privileged  --name my-dind-container11 -v /var/run/docker.sock:/var/run/docker.sock docker:dind sh
+echo "192.168.5.241 hub.packops.local" >> /etc/hosts
 openssl s_client -showcerts -connect hub.packops.local:443 </dev/null | openssl x509 -outform PEM > ca.crt
-
-cp ca.crt /usr/local/share/ca-certificates/hub.packops.local/
 cat ca.crt >> /etc/ssl/certs/ca-certificates.crt
-update-ca-certificates
+mkdir ~/.docker/
+echo '{
+        "auths": {
+                "hub.packops.local": {
+                        "auth": "YWRtaW46SGFyYm9yMTIzNDU="
+                }
+        }
+}' > ~/.docker/config.json
+docker login hub.packops.local
 ```
+
 # 5- Add configs in harbor.yml
 ```
 https:
