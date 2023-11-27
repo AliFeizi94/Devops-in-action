@@ -65,8 +65,8 @@ https:
   # https port for harbor, default is 443
     port: 443
   # The path of cert and key files for nginx
-    certificate: /opt/cert/harbor.crt
-    private_key: /opt/cert/harbor.key
+    certificate: /opt/cert/hub.packops.local.crt
+    private_key: /opt/cert/hub.packops.local.key
 
 
 
