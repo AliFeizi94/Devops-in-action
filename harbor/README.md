@@ -57,6 +57,7 @@ mkdir -p /usr/local/share/ca-certificates/hub.packops.local/
 openssl s_client -showcerts -connect hub.packops.local:443 </dev/null | openssl x509 -outform PEM > ca.crt
 
 cp ca.crt /usr/local/share/ca-certificates/hub.packops.local/
+cat ca.crt >> /etc/ssl/certs/ca-certificates.crt
 update-ca-certificates
 ```
 # 5- Add configs in harbor.yml
