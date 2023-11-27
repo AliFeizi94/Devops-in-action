@@ -11,30 +11,54 @@ tar xvf v1.10.16.tar.gz
  
  ```
  
-#  3- Configure Harbor
+#  3- Generate Certificate on Server 
 
 generate  certificate and add it in  harbor.yml
 ```
-mkdir /opt/cert && cd /opt/cert
+kdir /opt/cert
+cd /opt/cert
 
-# Step 1: Generate a Private Key
+openssl genrsa -out ca.key 4096
+openssl req -x509 -new -nodes -sha512 -days 3650 \
+ -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=hub.packops.local" \
+ -key ca.key \
+ -out ca.crt
+openssl genrsa -out hub.packops.local.key 4096
+openssl req -sha512 -new \
+    -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=hub.packops.local" \
+    -key hub.packops.local.key \
+    -out hub.packops.local.csr
 
-openssl genpkey -algorithm RSA -out harbor.key
+cat > v3.ext <<-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
 
-# Step 2: Generate a Certificate Signing Request (CSR)
-openssl req -new -key harbor.key -out harbor.csr -subj "/CN=harbor.example.com"
+[alt_names]
+DNS.1=hub.packops.local
+DNS.2=hub.packops.local
+DNS.3=hostname
+EOF
+openssl x509 -req -sha512 -days 3650 \
+    -extfile v3.ext \
+    -CA ca.crt -CAkey ca.key -CAcreateserial \
+    -in hub.packops.local.csr \
+    -out hub.packops.local.crt
 
-# Step 3: Generate a Self-Signed Certificate
-openssl x509 -req -days 365 -in harbor.csr -signkey harbor.key -out harbor.crt
-
-# Step 4: Combine Key and Certificate into a PEM file
-cat harbor.key harbor.crt > harbor.pem
-# Step 5 creat CA
-openssl x509 -req -days 365 -in harbor.csr -signkey harbor.key -out ca.crt
 
 
 ```
+# 4- Trust CA on Client 
+```
+mkdir -p /usr/local/share/ca-certificates/hub.packops.local/
+openssl s_client -showcerts -connect hub.packops.local:443 </dev/null | openssl x509 -outform PEM > ca.crt
 
+cp ca.crt /usr/local/share/ca-certificates/hub.packops.local/
+update-ca-certificates
+```
+# 5- Add configs in harbor.yml
 ```
 https:
   # https port for harbor, default is 443
@@ -48,7 +72,7 @@ https:
 ```
 
 
-# 4  install docker 
+# 6  install docker 
 ```
 sudo mkdir -p /etc/apt/keyrings
 
@@ -59,7 +83,7 @@ echo \
 
 apt update &&  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin docker-compose
 ```
-# 5 Bring up harbor 
+# 7 Bring up harbor 
 
 ```
 bash prepare
