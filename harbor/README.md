@@ -29,6 +29,9 @@ openssl x509 -req -days 365 -in harbor.csr -signkey harbor.key -out harbor.crt
 
 # Step 4: Combine Key and Certificate into a PEM file
 cat harbor.key harbor.crt > harbor.pem
+# Step 5 creat CA
+openssl x509 -req -days 365 -in harbor.csr -signkey harbor.key -out ca.crt
+
 
 ```
 
