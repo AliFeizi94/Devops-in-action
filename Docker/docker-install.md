@@ -1,3 +1,4 @@
+```
 sudo apt-get install \
     ca-certificates \
     curl \
@@ -18,3 +19,4 @@ git clone https://github.com/zabbix/zabbix-docker.git
 cd zabbix-docker
 mv docker-compose_v3_ubuntu_mysql_latest.yaml docker-compose.yml
 docker-compose up -d 
+```
