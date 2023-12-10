@@ -5,7 +5,7 @@ services:
     privileged: true
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./runner.toml:/etc/gitlab-runner/config.toml
+      - ./config/:/etc/gitlab-runner/
     networks:
       - gitlab-network
 
