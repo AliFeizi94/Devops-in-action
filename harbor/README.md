@@ -1,4 +1,9 @@
+```
 00- echo "192.168.5.241 hub.packops.local" >> /etc/hosts
+```
+01- Change External url to http (in http mode behind nginx )
+vim common/config/core/env
+
 1- ## download Harbor installaer
 ```
 wget https://github.com/goharbor/harbor/releases/download/v2.9.1/harbor-offline-installer-v2.9.1.tgz
