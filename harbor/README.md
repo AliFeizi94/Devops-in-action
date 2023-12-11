@@ -54,7 +54,7 @@ openssl x509 -req -sha512 -days 3650 \
 # 4- Trust CA on Client && Docker Login Config
 ```
 docker run -it  --privileged  --name my-dind-container11 -v /var/run/docker.sock:/var/run/docker.sock docker:dind sh
-echo "192.168.5.241 hub.packops.local" >> /etc/hosts
+echo "192.168.6.252 hub.packops.local" >> /etc/hosts
 openssl s_client -showcerts -connect hub.packops.local:443 </dev/null | openssl x509 -outform PEM > ca.crt
 cat ca.crt >> /etc/ssl/certs/ca-certificates.crt
 mkdir ~/.docker/
