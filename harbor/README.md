@@ -16,7 +16,7 @@ tar xvf v1.10.16.tar.gz
 
 generate  certificate and add it in  harbor.yml
 ```
-kdir /opt/cert
+mkdir /opt/cert
 cd /opt/cert
 
 openssl genrsa -out ca.key 4096
