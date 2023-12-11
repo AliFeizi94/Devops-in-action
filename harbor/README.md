@@ -1,8 +1,8 @@
 00- echo "192.168.5.241 hub.packops.local" >> /etc/hosts
 1- ## download Harbor installaer
 ```
-wget https://github.com/goharbor/harbor/archive/refs/tags/v1.10.16.tar.gz
-tar xvf v1.10.16.tar.gz
+wget https://github.com/goharbor/harbor/releases/download/v2.9.1/harbor-offline-installer-v2.9.1.tgz
+tar xvf harbor-offline-installer-v2.9.1.tgz
 ```
 
 
