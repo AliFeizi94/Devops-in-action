@@ -2,7 +2,7 @@
 
 ## Download Dockerfile Deb File 
 ```
-mkdir ./file/docker && cd file/docker 
+mkdir -p ./file/docker && cd file/docker 
 wget https://download.docker.com/linux/ubuntu/dists/focal/pool/stable/amd64/containerd.io_1.6.4-1_amd64.deb
 wget https://download.docker.com/linux/ubuntu/dists/focal/pool/stable/amd64/docker-ce-cli_24.0.4-1~ubuntu.20.04~focal_amd64.deb
 wget https://download.docker.com/linux/ubuntu/dists/focal/pool/stable/amd64/docker-ce_24.0.2-1~ubuntu.20.04~focal_amd64.deb
