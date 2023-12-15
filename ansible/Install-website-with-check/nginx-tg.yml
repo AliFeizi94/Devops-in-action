@@ -5,8 +5,8 @@
   tasks:
     - name: Install nginx
       apt:
-        update_cache: yes
         name: nginx
+        update_cache: true
         state: latest
 
     - name: Ensure nginx is enabled and running
@@ -17,7 +17,7 @@
 
     - name: Test html page is installed
       copy:
-        content: "Welcome to the example.com intranet!\n"
+        content: "Welcome to the PACKOPS Website!\n"
         dest: /var/www/html/index.html
 
 - name: Test intranet web server and Notify on Telegram
@@ -26,7 +26,7 @@
   tasks:
     - name: Connect to intranet webserver
       uri:
-        url: http://127.0.0.1
+        url: http://127.0.0.1/
         return_content: no
         status_code: 200
       register: result
