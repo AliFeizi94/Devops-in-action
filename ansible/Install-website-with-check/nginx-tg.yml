@@ -5,6 +5,7 @@
   tasks:
     - name: Install nginx
       apt:
+        update_cache: yes
         name: nginx
         state: latest
 
