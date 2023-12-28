@@ -28,5 +28,4 @@ deploy-to-stage:
   stage: deploy
   allow_failure: true
   script:
-    - ssh root@$STAGE_SERVER_IP "cd /opt/hello-go &&  echo IMAGEID=$CI_COMMIT_SHORT_SHA > .env &&  docker-compose down && docker-compose up -d"
-
+    - ssh root@$STAGE_SERVER_IP "cd /opt/hello-go &&  echo IMAGEID=$CI_COMMIT_SHORT_SHA > .env &&  docker compose down && docker compose up -d"
