@@ -1,0 +1,57 @@
+- name: Enable Intranet Services
+  hosts: localhost
+  connection: local
+  become: no
+  tasks:
+    - name: Install nginx
+      apt:
+        name: nginx
+        update_cache: true
+        state: latest
+
+    - name: Ensure nginx is enabled and running
+      service:
+        name: nginx
+        enabled: true
+        state: started
+
+    - name: Test html page is installed
+      copy:
+        content: "Welcome to the PACKOPS Website!\n"
+        dest: /var/www/html/index.html
+
+- name: Test intranet web server and Notify on Telegram
+  hosts: localhost
+  become: no
+  tasks:
+    - name: Connect to intranet webserver
+      uri:
+        url: http://127.0.0.1/
+        return_content: no
+        status_code: 200
+      register: result
+      ignore_errors: yes
+
+    - debug:
+        msg: "{{ result }}"
+
+    - name: Notify on Telegram if response code is not 200
+      uri:
+        url: https://api.telegram.org/bot5445218179:AAHW6vcIpO_a48NhmRclEIaUCBOwu6ym9Jw/sendMessage
+        method: POST
+        body_format: form-urlencoded
+        body:
+          chat_id: 96100908
+          text: "The  Website is not OK - Response Code: {{ result.status }}"
+      when: result.status != 200
+
+
+    - name: Notify on Telegram if response code is 200
+      uri:
+        url: https://api.telegram.org/bot5445218179:AAHW6vcIpO_a48NhmRclEIaUCBOwu6ym9Jw/sendMessage
+        method: POST
+        body_format: form-urlencoded
+        body:
+          chat_id: 96100908
+          text: "The Website is  OK - Response Code: {{ result.status }}"
+      when: result.status == 200

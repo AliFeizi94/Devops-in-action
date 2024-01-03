@@ -1,0 +1,31 @@
+services:
+  - docker:dind
+
+variables:
+  STAGE_SERVER_IP: 192.168.4.210
+
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - echo $PASSWORD | docker login -u farshadnikfetrat --password-stdin  
+    - docker build . -t farshadnikfetrat/hello-go:$CI_COMMIT_SHORT_SHA
+    - docker push farshadnikfetrat/hello-go:$CI_COMMIT_SHORT_SHA
+
+
+before_script:
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
+  - eval `ssh-agent -s`
+  - ssh-add <(echo "$SSH_PRIVATE_KEY"| base64 -d)
+
+  
+deploy-to-stage:
+  stage: deploy
+  allow_failure: true
+  script:
+    - ssh root@$STAGE_SERVER_IP "cd /opt/hello-go &&  echo IMAGEID=$CI_COMMIT_SHORT_SHA > .env &&  docker compose down && docker compose up -d"

@@ -1,0 +1,13 @@
+---
+- name: Create Multipass VM
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Launch Multipass VM
+      theko2fi.multipass.multipass_vm:
+        name: my-ubuntu-vm
+        image: "23.10"
+        cpus: 2
+        memory: "2G"
+        disk: "10G"
+        state: "started"

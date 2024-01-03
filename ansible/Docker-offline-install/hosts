@@ -1,0 +1,2 @@
+[linux-servers]
+srv1 ansible_ssh_host=192.168.4.230  ansible_ssh_user=geek ansible_ssh_pass=YOUR_PASSSWORD ansible_sudo_pass=YOUR_PASSSWORD

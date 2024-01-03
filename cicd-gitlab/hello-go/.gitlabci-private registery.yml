@@ -1,0 +1,63 @@
+services:
+  - docker:dind
+
+variables:
+  STAGE_SERVER_IP: 192.168.4.210
+
+ 
+stages:
+ # - test
+  - build
+  - deploy
+
+#test:
+#  image: 
+#    name: sonarsource/sonar-scanner-cli:latest
+#    entrypoint: [""]
+#  variables:
+#    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
+#    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+#  cache:
+#    key: "${CI_JOB_NAME}"
+#    paths:
+#      - .sonar/cache
+#  script: 
+#    - sonar-scanner
+#  allow_failure: true
+#  only:
+#    - main
+
+.Login-docker:
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config
+    - eval `ssh-agent -s`
+    - ssh-add <(echo "$SSH_PRIVATE_KEY"| base64 -d)
+
+
+# you have to login with reegistry credential and put ~/.docker/config.json in DOCKER_CONF
+build:
+  stage: build
+  script:
+    - mkdir ~/.docker/ && cat /builds/packops/hello-golang.tmp/DOCKER_CONF > ~/.docker/config.json 
+    - cat /builds/packops/hello-golang.tmp/DOCKER_CONF 
+    - docker login hub.packops.dev
+    - docker build . -t hub.packops.dev/baseimage/hello-go:$CI_COMMIT_SHORT_SHA
+    - docker push hub.packops.dev/baseimage/hello-go:$CI_COMMIT_SHORT_SHA
+
+
+
+  
+deploy-to-stage:
+  extends: .Login-docker
+  stage: deploy
+  allow_failure: true
+  script:
+    - ssh root@$STAGE_SERVER_IP "cd /opt/hello-go &&  echo IMAGEID=$CI_COMMIT_SHORT_SHA > .env &&  docker-compose down && docker-compose up -d"
+
+
+
+#  only:
+#    - pre-prod
+#    - master
+#
