@@ -1,0 +1,7 @@
+version :'3'
+services:
+  Hello-go:
+  name: hello-go
+  image:  farshadnikfetrat/hello-go:$IMAGEID
+  ports:
+  - "8080:8080"
