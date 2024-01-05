@@ -1,3 +1,4 @@
+```
 export RELEASE="1.7.0"
 wget https://github.com/prometheus/node_exporter/releases/download/v$RELEASE/node_exporter-$RELEASE.linux-386.tar.gz
 tar xzf node_exporter-$RELEASE.linux-386.tar.gz
@@ -21,3 +22,4 @@ WantedBy=multi-user.target " >  /etc/systemd/system/node_exporter.service
 
 systemctl daemon-reload
 systemctl enable node_exporter.service
+```
